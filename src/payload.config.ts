@@ -9,6 +9,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { payloadTotp } from 'payload-totp'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -34,6 +35,35 @@ export default buildConfig({
   sharp,
   plugins: [
     payloadCloudPlugin(),
-    // storage-adapter-placeholder
+    // payloadTotp({
+    //   collection: 'users',
+    //   totp: {
+    //     algorithm: 'SHA1',
+    //     digits: 6,
+    //     issuer: 'sha1-test',
+    //     period: 30,
+    //   },
+    //   forceSetup: true,
+    // }),
+    payloadTotp({
+      collection: 'users',
+      totp: {
+        algorithm: 'SHA256',
+        digits: 6,
+        issuer: 'sha256-test',
+        period: 30,
+      },
+      forceSetup: true,
+    }),
+    // payloadTotp({
+    //   collection: 'users',
+    //   totp: {
+    //     algorithm: 'SHA512',
+    //     digits: 6,
+    //     issuer: 'sha512-test',
+    //     period: 30,
+    //   },
+    //   forceSetup: true,
+    // }),
   ],
 })
